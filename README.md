@@ -48,4 +48,52 @@ $ COMPOSE_VERSION=$(wget https://api.github.com/repos/docker/compose/releases/la
 $ sudo wget https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -O /usr/local/bin/docker-compose
 $ sudo chmod 755 /usr/local/bin/docker-compose
 ```
+Usage
+------
 
+Please input the following commands to clone this repository.
+
+```sh
+$ git clone https://github.com/RobotJustina/tmc_justina_docker
+$ cd tmc_justina_docker
+```
+
+Download all of the images necessary for running the simulator.
+As you will be downloading a large amount of data,
+please execute the following command in an environment that is connected to a high speed network.
+
+```sh
+$ ./pull-images.sh
+```
+Starting the simulator
+----------------------
+
+Please input the following command and start the simulator.
+
+```sh
+$ docker-compose up
+```
+
+Please open each of the following URLs in a browser, then move on to development.
+
+- The simulator's screen http://localhost:3000
+- IDE http://localhost:3001
+- jupyter notebook http://localhost:3002
+
+Operation within the docker host PC
+-----------------------------------
+
+In order to communicate from the host PC that is running the docker image with the simulator's roscore,
+it is necessary that ROS_MASTER_URI is set appropriately.
+If you source the script that is located directly under this package as illustrated below,
+then it is possible to set ROS_MASTER_URI.
+
+```sh
+$ source ./set-rosmaster.sh
+```
+
+After starting the simulator, please check that ROS communication is working using the host PC.
+
+LICENSE
+---------------
+This software is released under the BSD 3-Clause Clear License, see LICENSE.txt.
