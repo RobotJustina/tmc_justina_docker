@@ -1,0 +1,337 @@
+(attribute 		is_kind_of 		top)
+(stuff  		is_kind_of  	top)
+(aka 			is_kind_of 		attribute)
+
+
+
+
+#NAGOYA 2017
+
+#(person 		is_kind_of 		stuff)
+(item 			is_kind_of 		stuff)
+(place 			is_kind_of 		stuff)
+(gesture		is_kind_of		stuff)
+(abspos			is_kind_of		stuff)
+(relpos			is_kind_of		stuff)
+(category		is_kind_of		stuff)
+#(color			is_kind_of		stuff)
+(room			is_kind_of		stuff)
+#(rpos			is_kind_of		stuff)
+
+
+# personas y robot
+(robot 	 		is_kind_of 		person)
+
+
+#FAMELE
+
+#MALE
+
+(amelia	is_kind_of      person)
+(angel	is_kind_of      person)
+(ava	is_kind_of      person)
+(charlie	is_kind_of      person)
+(charlotte	is_kind_of      person)
+(hunter	is_kind_of      person)
+(jack	is_kind_of      person)
+(max	is_kind_of      person)
+(mia	is_kind_of      person)
+(noah	is_kind_of      person)
+(oliver	is_kind_of      person)
+(olivia	is_kind_of      person)
+(parker	is_kind_of      person)
+(sam	is_kind_of      person)
+(thomas	is_kind_of      person)
+(william	is_kind_of      person)
+
+#(me  			is_kind_of			person)
+(i				is_kind_of			person)
+(you			is_kind_of			person)
+(he 			is_kind_of			person)
+(she			is_kind_of			person)
+#(couch			is_kind_of			person)
+
+# lugares
+#(room 			is_kind_of  	place)
+#(there 			is_kind_of 		place)
+#(here 			is_kind_of 		place)
+
+
+#ROOMS
+
+(bedroom	is_kind_of      room)
+(corridor	is_kind_of      room)
+(dining_room	is_kind_of      room)
+(kitchen	is_kind_of      room)
+(living_room	is_kind_of      room)
+(office	is_kind_of      room)
+
+
+#PLACEMENT
+(armchair	is_kind_of      place)
+(bed	is_kind_of      place)
+(bedroom_chest	is_kind_of      place)
+(coat_hanger	is_kind_of      place)
+(coffee_table	is_kind_of      place)
+(couch	is_kind_of      place)
+(desk	is_kind_of      place)
+(dishwasher	is_kind_of      place)
+(display_cabinet	is_kind_of      place)
+(fridge	is_kind_of      place)
+(island	is_kind_of      place)
+(kitchen_cabinet	is_kind_of      place)
+(kitchen_table	is_kind_of      place)
+(safe	is_kind_of      place)
+(shelf	is_kind_of      place)
+(shoe_rack	is_kind_of      place)
+(sideboard	is_kind_of      place)
+(sidetable	is_kind_of      place)
+(sink	is_kind_of      place)
+(trash_bin	is_kind_of      place)
+(trash_bin_1	is_kind_of      place)
+(trash_bin_2	is_kind_of      place)
+(tv	is_kind_of      place)
+
+#BEACONS
+#(couch			is_kind_of 		place)
+
+#OTHERS PLACES
+(arena			is_kind_of		place)
+(exit			is_kind_of		place)
+(entrance		is_kind_of		place)
+(microwave		is_kind_of		place)
+(oven		is_kind_of		place)
+(fridge		is_kind_of		place)
+
+# comida
+(beverage 			is_kind_of 		item)
+
+##
+(apple	is_kind_of      item)
+(basket	is_kind_of      item)
+(beer	is_kind_of      item)
+(biscuit	is_kind_of      item)
+(bowl	is_kind_of      item)
+(carrot	is_kind_of      item)
+(cereals	is_kind_of      item)
+(cheetos	is_kind_of      item)
+(chocolate_milk	is_kind_of      item)
+(cloth	is_kind_of      item)
+(coke	is_kind_of      item)
+(dishwasher_tab	is_kind_of      item)
+(doritos	is_kind_of      item)
+(fork	is_kind_of      item)
+(frosty_fruits	is_kind_of      item)
+(glass	is_kind_of      item)
+(juice	is_kind_of      item)
+(kiwi	is_kind_of      item)
+(knife	is_kind_of      item)
+(lemon	is_kind_of      item)
+(lemonade	is_kind_of      item)
+(noodles	is_kind_of      item)
+(onion	is_kind_of      item)
+(orange	is_kind_of      item)
+(pear	is_kind_of      item)
+(plate	is_kind_of      item)
+(shapes_chicken	is_kind_of      item)
+(shapes_pizza	is_kind_of      item)
+(shot_glass	is_kind_of      item)
+(snakes	is_kind_of      item)
+(sponge	is_kind_of      item)
+(spoon	is_kind_of      item)
+(tea_bag	is_kind_of      item)
+(trash_bags	is_kind_of      item)
+(tray	is_kind_of      item)
+(twisties	is_kind_of      item)
+(vegemite	is_kind_of      item)
+(water	is_kind_of      item)
+(milk	is_kind_of      item)
+
+#CUBES
+(green_block		is_kind_of		item)
+(red_block		is_kind_of		item)
+(orange_block		is_kind_of		item)
+(blue_block		is_kind_of		item)
+(yellow_block		is_kind_of		item)
+
+
+# bebidas
+#(drink 			is_kind_of  	item)
+(coffee 			is_kind_of 		item)
+#(water 			is_kind_of 		drink)
+#(milk 			is_kind_of 		drink)
+#(beer 			is_kind_of 		drink)
+#(coke 			is_kind_of 		drink)
+(juice 			is_kind_of 		drink)
+#(grape juice 		is_kind_of 		drink)
+#(cranberry_juice	is_kind_of 		drink)
+#(nescafe latte		is_kind_of 		drink)
+
+
+#$pgenderp
+
+
+#questions
+(question 		is_kind_of 		stuff)
+(a_question 	is_kind_of 		question)
+(your_name 		is_kind_of 		question)
+(your_team_name 	is_kind_of 		question)
+(introduce_yourself 	is_kind_of 		question)
+(the_time		is_kind_of		question)
+(what_time_is_it	is_kind_of		question)
+(the_name_of_your_team	is_kind_of		question)
+(what_day_is_tomorrow	is_kind_of		question)
+(what_day_is_today		is_kind_of		question)
+(the_day_of_the_month	is_kind_of		question)
+(the_day_of_the_week	is_kind_of		question)
+(something_about_yourself	is_kind_of		question)
+(a_joke	is_kind_of		question)
+(your_team_affiliation	is_kind_of		question)
+(your_team_country		is_kind_of		question)
+(country		is_kind_of		question)
+(affiliation		is_kind_of		question)
+(whether		is_kind_of		question)
+(name		is_kind_of		question)
+
+#$pose
+#(sitting		is_kind_of		pose)
+#(standing		is_kind_of		pose)
+#(lying			is_kind_of		pose)
+
+
+## some repeated orations
+
+#(tell_me_the_name_of_the_man_at_the 		is_kind_of		partial)
+#(tell_me_the_name_of_the_man_in_the 		is_kind_of		partial)
+(tell_me_how_many_people_in_the			is_kind_of		partial)
+(tell_me_how_many				is_kind_of		partial)
+(tell_me_what					is_kind_of		partial)
+
+## Relative Adjectives and absolutes
+(smaller					is_kind_of		adjectiver)
+(bigger						is_kind_of		adjectiver)
+(heavier					is_kind_of		adjectiver)
+(lighter					is_kind_of		adjectiver)
+(smallest					is_kind_of		adjectivea)
+(biggest					is_kind_of		adjectivea)
+(heaviest					is_kind_of		adjectivea)
+(lightest					is_kind_of		adjectivea)
+
+## Categories
+(candies	is_kind_of      category)
+(cleaning_stuff	is_kind_of      category)
+(containers	is_kind_of      category)
+(cutlery	is_kind_of      category)
+(drinks	is_kind_of      category)
+(food	is_kind_of      category)
+(fruits	is_kind_of      category)
+(snacks	is_kind_of      category)
+(tableware	is_kind_of      category)
+
+## People
+(children					is_kind_of		people)
+(adults						is_kind_of		people)
+(elders						is_kind_of		people)
+(males						is_kind_of		people)
+(females					is_kind_of		people)
+(men						is_kind_of		people)
+(women						is_kind_of		people)
+(boys						is_kind_of		people)
+(girls						is_kind_of		people)
+(people						is_kind_of		ppl)
+
+## posprs
+(standing					is_kind_of		posprs)
+(sitting					is_kind_of		posprs)
+(lying						is_kind_of		posprs)
+#(lying_down					is_kind_of		posprs)
+
+## gprsn
+(male						is_kind_of		gprsn)
+(female						is_kind_of		gprsn)
+(man						is_kind_of		gprsn)
+(woman						is_kind_of		gprsn)
+(boy						is_kind_of		gprsn)
+(girl						is_kind_of		gprsn)
+(child						is_kind_of		gprsn)
+(person						is_kind_of		gprsn)
+
+## Color
+(red						is_kind_of		color)
+(blue						is_kind_of		color)
+(white						is_kind_of		color)
+(black						is_kind_of		color)
+(green						is_kind_of		color)
+(yellow						is_kind_of		color)
+(orange						is_kind_of		color)
+(gray						is_kind_of		color)
+
+## Gesture
+(waving						is_kind_of		gesture)
+(raising_their_left_arm				is_kind_of		gesture)
+(raising_their_right_arm			is_kind_of		gesture)
+(pointing_to_the_left				is_kind_of		gesture)
+(pointing_to_the_right				is_kind_of		gesture)
+
+(tallest			is_kind_of		property)
+(smallest			is_kind_of		property)
+(oldest				is_kind_of		property)
+(youngest			is_kind_of		property)
+(slimmest			is_kind_of		property)
+(fattest			is_kind_of		property)
+(largest			is_kind_of		property)
+
+## outfit
+(t_shirt			is_kind_of		outfit)
+(shirt				is_kind_of		outfit)
+(blouse				is_kind_of		outfit)
+(shoes				is_kind_of		outfit)
+(sweater			is_kind_of		outfit)
+(pants				is_kind_of		outfit)
+(coat				is_kind_of		outfit)
+(jacket				is_kind_of		outfit)
+
+(t-shirts			is_kinf_of		outfit)
+(shirts				is_kind_of		outfit)
+(blouses			is_kind_of		outfit)
+(sweaters			is_kind_of		outfit)
+(coats				is_kind_of		outfit)
+(jackets			is_kind_of		outfit)
+
+
+## Apparel
+(hat				is_kind_of		apparel)
+(glasses			is_kind_of		apparel)
+(necklace			is_kind_of		apparel)
+(tie				is_kind_of		apparel)
+(earrings			is_kind_of		apparel)
+
+## Color-dressed
+(red_dressed						is_kind_of		colord)
+(blue_dressed						is_kind_of		colord)
+(white_dressed						is_kind_of		colord)
+(black_dressed						is_kind_of		colord)
+(green_dressed						is_kind_of		colord)
+(yellow_dressed						is_kind_of		colord)
+(orange_dressed						is_kind_of		colord)
+(gray_dressed						is_kind_of		colord)
+
+## Absolute pose
+(left_most	is_kind_of	abspos)
+(right_most	is_kind_of	abspos)
+
+## Relative pose
+(at_the_left_of		is_kind_of	relpos)
+(at_the_right_of	is_kind_of	relpos)
+(on_top_of		is_kind_of	relpos)
+(above			is_kind_of	relpos)
+(behind			is_kind_of	relpos)
+(under			is_kind_of	relpos)
+
+## Rpos
+##(left		is_kind_of	rpos)
+##(right		is_kind_of	rpos)
+##(center		is_kind_of	rpos)
+##(middle_bottom	is_kind_of	rpos)
+##(top		is_kind_of	rpos)
+
