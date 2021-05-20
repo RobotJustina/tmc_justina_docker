@@ -1,5 +1,5 @@
 # tmc_justina_docker
---------------------
+
 This repository contains the necessary packages and resources to run the simulated tmc_wrs_gazebo world
 
 About the HSR
@@ -78,7 +78,18 @@ Please open each of the following URLs in a browser, then move on to development
 
 - The simulator's screen http://localhost:3000
 - IDE http://localhost:3001
-- jupyter notebook http://localhost:3002
+
+In the workspace screen type the next commands:
+
+```sh
+$ ./set_libs.sh
+$ catkin_make
+$ source devel/setup.bash
+$ roslaunch surge_et_ambula justina_gazebo.launch
+```
+
+Now in the simulation screen you can see the justina's GUI
+
 
 Operation within the docker host PC
 -----------------------------------
