@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="position" default="true"/>  
+  <arg name="torque" default="false"/>
+  <arg name="torque_extension" default="false"/>
+  <!-- Include gazebo launch file rrbot_world.launch -->
+  <include file="$(find justina_plugins)/launch/justina_world.launch" />
+
+
+  <!-- Run joint position controllers if true -->
+  <group if="$(arg position)">
+    <!-- Include ros_control launch file to load joint position controllers -->
+    <include file="$(find justina_plugins)/launch/justina_control.launch" />
+	<node name="justina_joint_position_node" pkg="justina_plugins" type="justina_position_controller.py" output="screen" respawn="true" />
+   </group>
+</launch>

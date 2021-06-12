@@ -1,0 +1,17 @@
+<launch>
+  <env name="GAZEBO_MODEL_PATH" value="$(find justina_plugins)/models:$(optenv GAZEBO_MODEL_PATH)"/> 
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find justina_plugins)/worlds/wrs2020.world"/>
+    		<!-- more default parameters can be changed here -->
+  	</include>
+	<!-- <param name="robot_description"	command="$(find xacro)/xacro.py $(find justina_plugins)/robot_test/griper.xacro"/> -->
+	<param name="robot_description"	command="$(find xacro)/xacro.py $(find justina_plugins)/hardware/justina_4.xacro"/>
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+		  args="-param robot_description -urdf -model justina -x -1.7 -y 1.1 -z 0.0 -Y -1.5707">
+	</node>
+</launch>

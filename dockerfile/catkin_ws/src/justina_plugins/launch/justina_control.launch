@@ -1,0 +1,36 @@
+<launch>
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find justina_plugins)/robot_test/justina.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	  output="screen" ns="/justina" args="joint_state_controller
+	  				joint5_position_controller
+	  				joint6_position_controller
+	  				joint7_position_controller
+					la_1_controller
+					la_2_controller
+					la_3_controller
+					la_4_controller
+					la_5_controller
+					la_6_controller
+					la_7_controller
+					la_grip_left_controller
+					la_grip_right_controller
+					ra_1_controller
+					ra_2_controller
+					ra_3_controller
+					ra_4_controller
+					ra_5_controller
+					ra_6_controller
+					ra_7_controller
+					ra_grip_left_controller
+					ra_grip_right_controller
+					"/>
+
+
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+		<remap from="/joint_states" to="/justina/joint_states" />
+	</node>
+	   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+</launch>
