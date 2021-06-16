@@ -1,0 +1,17 @@
+<launch>
+  
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item1" output="screen"
+        args="-database ycb_077_rubiks_cube -sdf -model task_item1 -x -2.7 -y -1.2 -z 0.5"
+  />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item2" output="screen"
+        args="-database ycb_077_rubiks_cube -sdf -model task_item2 -x -0.43 -y 1.1 -z 0.6"
+  />
+  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="taskitems_in_bina_detector" output="screen">
+    <param name="box_name" value="wrc_bin_green" />
+    <rosparam param="box_size">[0.35, 0.21, 0.20]</rosparam>
+    <rosparam param="box_pose">[0, 0, 0.105, 0, 0, 0]</rosparam>
+    <rosparam param="object_names">['task_item*']</rosparam>
+    <remap from="/object_in_box_detector/count" to="/taskitems_in_bina_detector/count"/>
+  </node>
+  <node pkg="tmc_gazebo_task_evaluators" type="wrs_score_counter" name="wrs_score_counter" output="screen"/>
+</launch>
