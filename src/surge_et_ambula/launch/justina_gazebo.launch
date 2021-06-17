@@ -63,7 +63,9 @@
 		<node name="ra_control" pkg="arms_control" type="ra_control_node" output="screen" args="-f $(find knowledge)/manipulation/predef_poses/"/>
     </group>
     
-    
+    <group ns="vision">
+        <node name="obj_reco" pkg="obj_reco" type="obj_reco_node" output="screen" args="--db /workspace/dockerfile/catkin_ws/src/vision/obj_reco/TrainingDir/"/>
+    </group>
 	
 	<include file="$(find surge_et_ambula)/launch/justina_knowledge.launch"/>
 
