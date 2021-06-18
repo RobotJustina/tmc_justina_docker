@@ -15,3 +15,11 @@ sudo cp /opt/ros/melodic/lib/shared_libs/libpulsecommon-11.1.so /usr/lib/x86_64-
 
 sudo cp /opt/ros/melodic/lib/shared_libs/libpcl_common.so.1.8.1 /usr/lib/x86_64-linux-gnu/libpcl_common.so.1.8
 sudo cp /opt/ros/melodic/lib/shared_libs/* /opt/ros/melodic/lib
+
+sudo touch /etc/ld.so.conf.d/opencv.conf
+sudo /bin/su -c "echo '/usr/local/lib' >> /etc/ld.so.conf.d/opencv.conf"
+sudo ldconfig
+
+sudo cp /usr/local/lib/libpcl_* /usr/lib/x86_64-linux-gnu/ -P
+sudo cp /usr/local/lib/libOpenNI2.so* /usr/lib/x86_64-linux-gnu/ -P
+sudo cp /usr/local/lib/libOpenNI.so.0 /usr/lib/x86_64-linux-gnu/ -P
