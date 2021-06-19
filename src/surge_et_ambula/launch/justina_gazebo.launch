@@ -30,10 +30,7 @@
 		<arg name="enable_torque" value="$(arg enable_torque)"/>
 		<arg name="head_offset" value="$(arg head_offset)"/>
 	</include>	
-	<group ns="hri">
-		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find knowledge)/hri/justina_gazebo.rviz"/>
-                <node name="jrviz" pkg="jrviz" type="jrviz_node" args="-d $(find knowledge)/hri/justina_gazebo.rviz -p $(find knowledge)/navigation/ -dv $(find knowledge)/hri/rviz_config_nav.rviz" output="screen"/>
-	</group>
+	
 	<group ns="interoperation">
 		<node name="joystick_teleop" pkg="joystick_teleop" type="joystick_xone.py" output="screen" />
 	</group>
@@ -67,6 +64,10 @@
         <node name="obj_reco" pkg="obj_reco" type="obj_reco_node" output="screen" args="--db /workspace/dockerfile/catkin_ws/src/vision/obj_reco/TrainingDir/"/>
     </group>
 	
-	<include file="$(find surge_et_ambula)/launch/justina_knowledge.launch"/>
+    <include file="$(find surge_et_ambula)/launch/justina_knowledge.launch"/>
+    <group ns="hri">
+		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find knowledge)/hri/justina_gazebo.rviz"/>
+                <node name="jrviz" pkg="jrviz" type="jrviz_node" args="-d $(find knowledge)/hri/justina_gazebo.rviz -p $(find knowledge)/navigation/ -dv $(find knowledge)/hri/rviz_config_nav.rviz" output="screen"/>
+	</group>
 
 </launch>
