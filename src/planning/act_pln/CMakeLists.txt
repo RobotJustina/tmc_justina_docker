@@ -17,9 +17,9 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   vision_msgs
   bbros_bridge
-  #justina_tools
+  justina_tools
   std_srvs
-  #pcl_ros
+  pcl_ros
   sensor_msgs
   cv_bridge
   image_transport
