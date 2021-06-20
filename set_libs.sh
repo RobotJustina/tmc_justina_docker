@@ -23,3 +23,6 @@ sudo ldconfig
 sudo cp /usr/local/lib/libpcl_* /usr/lib/x86_64-linux-gnu/ -P
 sudo cp /usr/local/lib/libOpenNI2.so* /usr/lib/x86_64-linux-gnu/ -P
 sudo cp /usr/local/lib/libOpenNI.so.0 /usr/lib/x86_64-linux-gnu/ -P
+
+sudo cp -r Eigen/ /opt/ros/melodic/include/
+sudo cp -r pcl/ /opt/ros/melodic/include/
