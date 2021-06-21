@@ -79,6 +79,7 @@ int main(int argc, char** argv){
                     //ss.str("");
                     //ss << "I have arrived to the kitchen table";
                     //JustinaHRI::waitAfterSay(ss.str(), 5000);
+                    
         			state = SM_ALIGN_TABLE;
 			    //}
 			    /*if(change_loc==1){
@@ -100,6 +101,7 @@ int main(int argc, char** argv){
                 std::cout << "I aling with the tall table" << std::endl;
     			JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
         		objectDetected = JustinaTasks::alignWithTable(0.35);
+                JustinaNavigation::moveDist(0.4, 4000);
         		//objectDetected = true;
         		state = SM_DETECT_OBJECT;
     			break;
@@ -116,7 +118,7 @@ int main(int argc, char** argv){
 		            if(JustinaVision::detectAllObjectsVot(recoObj, image, 5)){
 		                for(int j = 0; j < recoObj.size() && !objectDetected; j++){
 		                	// id.compare es la lista de objetos a leer, en este caso es cocacola
-		                    if (recoObj[j].id.compare("cube") == 0){
+		                    if (recoObj[j].id.compare("apple") == 0){
 		                        index = j;
 		                        objectDetected = true;
 		                    }
@@ -162,9 +164,10 @@ int main(int argc, char** argv){
         		//Go to location
         		std::cout << "State machine: SM_NAVIGATE_TO_INSPECTION" << std::endl;
 			    
-        			if(!JustinaNavigation::getClose("bin_a", 120000)){
+        			if(!JustinaNavigation::getClose("long_table_a_1", 120000)){
         				std::cout << "Cannot move to bin_a" << std::endl;
         			}
+                    JustinaNavigation::moveDist(0.4, 4000);
         			state = SM_DELIVER_OBJECT;
 			    
         	    break;

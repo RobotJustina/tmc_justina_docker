@@ -1,70 +1,70 @@
 <launch>
   
-  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="taskitems_in_bina_detector" output="screen">
+  <!--<node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="taskitems_in_bina_detector" output="screen">
     <param name="box_name" value="wrc_bin_green" />
     <rosparam param="box_size">[0.38, 0.33, 0.33]</rosparam>
     <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
     <rosparam param="object_names">['task1_taskitem*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/taskitems_in_bina_detector/count"/>
-  </node>
+  </node> --> 
   
-  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_bina_detector" output="screen">
+  <!-- <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_bina_detector" output="screen">
     <param name="box_name" value="wrc_bin_green" />
     <rosparam param="box_size">[0.38, 0.33, 0.33]</rosparam>
     <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
     <rosparam param="object_names">['*ycb*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/any_in_bina_detector/count"/>
-  </node>
+  </node> -->
   
-  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="taskitems_in_binb_detector" output="screen">
+ <!-- <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="taskitems_in_binb_detector" output="screen">
     <param name="box_name" value="wrc_bin_black" />
     <rosparam param="box_size">[0.38, 0.33, 0.33]</rosparam>
     <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
     <rosparam param="object_names">['discarded*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/taskitems_in_binb_detector/count"/>
-  </node>
+  </node> -->
   
-  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_binb_detector" output="screen">
+  <!-- <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_binb_detector" output="screen">
     <param name="box_name" value="wrc_bin_black" />
     <rosparam param="box_size">[0.38, 0.33, 0.33]</rosparam>
     <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
     <rosparam param="object_names">['*ycb*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/any_in_binb_detector/count"/>
-  </node>
+  </node> -->
 
   <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="foods_in_traya_detector" output="screen">
-    <param name="box_name" value="wrc_tray2" />
+    <param name="box_name" value="wrc_tray_2" />
     <rosparam param="box_size">[0.38, 0.36, 0.05]</rosparam>
-    <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
+    <rosparam param="box_pose">[0, 0, 0, 0, 0, 0]</rosparam>
     <rosparam param="object_names">['task1_food*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/foods_in_traya_detector/count"/>
   </node>
   
-  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_traya_detector" output="screen">
-    <param name="box_name" value="wrc_tray2" />
+    <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_traya_detector" output="screen">
+    <param name="box_name" value="wrc_tray_2" />
     <rosparam param="box_size">[0.38, 0.36, 0.05]</rosparam>
-    <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
-    <rosparam param="object_names">['*ycb*']</rosparam>
+    <rosparam param="box_pose">[0, 0, 0, 0, 0, 0]</rosparam>
+    <rosparam param="object_names">['task1*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/any_in_traya_detector/count"/>
   </node>
   
-  <!--<node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="foods_in_trayb_detector" output="screen">
-    <param name="box_name" value="wrc_tray1" />
+  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="foods_in_trayb_detector" output="screen">
+    <param name="box_name" value="wrc_tray_1" />
     <rosparam param="box_size">[0.38, 0.36, 0.05]</rosparam>
-    <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
+    <rosparam param="box_pose">[0.0, 0.0, 0.0, 0, 0, 0.0]</rosparam>
     <rosparam param="object_names">['task1_food*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/foods_in_trayb_detector/count"/>
   </node>
   
   <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="any_in_trayb_detector" output="screen">
-    <param name="box_name" value="wrc_tray1" />
+    <param name="box_name" value="wrc_tray_1" />
     <rosparam param="box_size">[0.38, 0.36, 0.05]</rosparam>
-    <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
-    <rosparam param="object_names">['*ycb*']</rosparam>
+    <rosparam param="box_pose">[0.0, 0.0, 0.02, 0, 0, 1.57]</rosparam>
+    <rosparam param="object_names">['*task1*']</rosparam>
     <remap from="/object_in_box_detector/count" to="/any_in_trayb_detector/count"/>
   </node>
   
-  <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="kitchenitems_in_containera_detector" output="screen">
+  <!-- <node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="kitchenitems_in_containera_detector" output="screen">
     <param name="box_name" value="wrc_container_a" />
     <rosparam param="box_size">[0.28, 0.28, 0.125]</rosparam>
     <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>

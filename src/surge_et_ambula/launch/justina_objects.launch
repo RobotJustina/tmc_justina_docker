@@ -3,8 +3,11 @@
   <!--<node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item1" output="screen"
         args="-database ycb_077_rubiks_cube -sdf -model task_item1 -x -2.7 -y -1.2 -z 0.5"
   />-->
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item2" output="screen"
-        args="-database ycb_077_rubiks_cube -sdf -model task_item2 -x -0.43 -y 1.3 -z 0.6"
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task1_foodf" output="screen"
+        args="-database ycb_013_apple -sdf -model task1_foodf_ycb_013_apple -x -0.45 -y 1.31 -z 0.6 -Y -0.45"
+  />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task1_taskitemf" output="screen"
+        args="-database ycb_077_rubiks_cube -sdf -model task1_taskitemf_ycb_077_rubiks_cube -x -0.45 -y 1.11 -z 0.6 -Y -0.45"
   />
   <!--<node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="taskitems_in_bina_detector" output="screen">
     <param name="box_name" value="wrc_bin_green" />
@@ -30,7 +33,7 @@
   /> -->
 
   <!--<node pkg="tmc_gazebo_task_evaluators" type="object_in_box_detector" name="foods_in_traya_detector" output="screen">
-    <param name="box_name" value="wrc_tray2" />
+    <param name="box_name" value="wrc_tray_2" />
     <rosparam param="box_size">[0.38, 0.36, 0.05]</rosparam>
     <rosparam param="box_pose">[0, 0, 0.0, 0, 0, 0]</rosparam>
     <rosparam param="object_names">['food*']</rosparam>
