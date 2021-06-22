@@ -1,9 +1,9 @@
 <launch>
   <node pkg="gazebo_ros" type="spawn_model" name="table1" output="screen"
-        args="-database wrc_tall_table -sdf -model table1 -x -1.7 -y 0.5 -z 0.4"
+        args="-database wrc_tall_table -sdf -model table1 -x -1.7 -y 0.5 -z 0.3"
   />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item1" output="screen"
-        args="-database ycb_077_rubiks_cube -sdf -model task_item1 -x -1.7 -y 0.6 -z 1.0"
+        args="-database ycb_065-b_cups -sdf -model task_item1 -x -1.7 -y 0.6 -z 0.9"
   />
   
 
