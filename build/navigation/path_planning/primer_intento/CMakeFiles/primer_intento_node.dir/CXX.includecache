@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/workspace/src/navigation/path_planning/primer_intento/src/main.cpp
+iostream
+-
+tileadaptor.hpp
+/workspace/src/navigation/path_planning/primer_intento/src/tileadaptor.hpp
+
+/workspace/src/navigation/path_planning/primer_intento/src/pathfinding.hpp
+vector
+-
+numeric
+-
+algorithm
+-
+functional
+-
+
+/workspace/src/navigation/path_planning/primer_intento/src/tileadaptor.hpp
+utility.hpp
+/workspace/src/navigation/path_planning/primer_intento/src/utility.hpp
+pathfinding.hpp
+/workspace/src/navigation/path_planning/primer_intento/src/pathfinding.hpp
+
+/workspace/src/navigation/path_planning/primer_intento/src/utility.hpp
+cmath
+-
+vector
+-
+algorithm
+-
+

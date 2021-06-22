@@ -1,0 +1,8 @@
+prefix=/workspace/install
+
+Name: env_des
+Description: Description of env_des
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
