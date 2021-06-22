@@ -1,8 +1,0 @@
-prefix=/workspace/install
-
-Name: manip_pln
-Description: Description of manip_pln
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

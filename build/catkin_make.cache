@@ -1,2 +1,0 @@
-manipulation/arms_control:manipulation/head_control:manipulation/ik_geometric:manipulation/manip_pln:navigation/obs_avoidance/potential_fields:navigation/path_planning/path_calculator:navigation/path_planning/primer_intento:navigation/path_planning/simple_move:planning/act_pln:planning/knowledge:planning/knowledge_representation:surge_et_ambula:visualization/env_des
--DCATKIN_DEVEL_PREFIX=/workspace/devel -DCMAKE_INSTALL_PREFIX=/workspace/install -G Unix Makefiles

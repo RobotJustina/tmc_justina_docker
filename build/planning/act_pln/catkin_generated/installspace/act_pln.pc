@@ -1,8 +1,0 @@
-prefix=/workspace/install
-
-Name: act_pln
-Description: Description of act_pln
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
