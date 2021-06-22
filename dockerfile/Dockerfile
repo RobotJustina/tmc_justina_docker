@@ -117,6 +117,7 @@ RUN cd /catkin_ws && source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make insta
 
 RUN cd /opt/ros/melodic/lib && mkdir shared_libs
 RUN cp /opt/ros/melodic/lib/libpcl_ros_tf.so /opt/ros/melodic/lib/shared_libs && \
+    cp /opt/ros/melodic/lib/libpcl_ros_filter.so /opt/ros/melodic/lib/shared_libs && \
     cp /opt/ros/melodic/lib/libgrid_utils.so /opt/ros/melodic/lib/shared_libs && \
     cp /opt/ros/melodic/lib/libmap_server_image_loader.so /opt/ros/melodic/lib/shared_libs && \
     cp /opt/ros/melodic/lib/libamcl_sensors.so /opt/ros/melodic/lib/shared_libs && \
@@ -131,6 +132,10 @@ RUN cp /opt/ros/melodic/lib/libpcl_ros_tf.so /opt/ros/melodic/lib/shared_libs &&
     cp /lib/x86_64-linux-gnu/libwrap.so.0.7.6 /opt/ros/melodic/lib/shared_libs && \
     cp /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so /opt/ros/melodic/lib/shared_libs && \
     cp /usr/lib/x86_64-linux-gnu/libpcl_common.so.1.8.1 /opt/ros/melodic/lib/shared_libs && \
+    cp /usr/lib/x86_64-linux-gnu/libvtkGUISupportQt-6.3.so.6.3.0 /opt/ros/melodic/lib/shared_libs && \
+    cp /usr/lib/x86_64-linux-gnu/libvtkGUISupportQtOpenGL-6.3.so.6.3.0 /opt/ros/melodic/lib/shared_libs && \
+    cp /usr/lib/x86_64-linux-gnu/libvtkGUISupportQtSQL-6.3.so.6.3.0 /opt/ros/melodic/lib/shared_libs && \
+    cp /usr/lib/x86_64-linux-gnu/libvtkGUISupportQtWebkit-6.3.so.6.3.0 /opt/ros/melodic/lib/shared_libs && \
     cp /opt/ros/melodic/lib/libjustina_tools.so /opt/ros/melodic/lib/shared_libs
 
 #RUN cd /opt/ros/melodic/lib && mkdir opencv_libs
@@ -143,8 +148,12 @@ RUN cp /opt/ros/melodic/lib/libpcl_ros_tf.so /opt/ros/melodic/lib/shared_libs &&
 
 RUN cp /usr/lib/x86_64-linux-gnu/libpcl* /usr/local/lib -P && \
     cp /usr/lib/libOpenNI2.so* /usr/local/lib/ -P && \
-    cp /usr/lib/libOpenNI.so* /usr/local/lib/ -P
+    cp /usr/lib/libOpenNI.so* /usr/local/lib/ -P && \
+    cp /usr/lib/libvtkWrappingTools-6.3.a /usr/local/lib/ -P
 
+RUN cp /usr/lib/x86_64-linux-gnu/libvtkViewsQt-6.3.so.6.3.0 /opt/ros/melodic/lib/shared_libs && \
+    cp /usr/lib/x86_64-linux-gnu/libvtkRenderingQt-6.3.so.6.3.0 /opt/ros/melodic/lib/shared_libs && \
+    cp /usr/lib/x86_64-linux-gnu/libhdf5_openmpi.so /opt/ros/melodic/lib/shared_libs
 ADD entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
@@ -153,9 +162,10 @@ RUN source /opt/ros/$ROS_DISTRO/setup.bash && rosrun tmc_gazebo_task_evaluators 
 
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 
-VOLUME ["/opt/ros/melodic/share/hsrb_meshes", "/opt/ros/melodic/share/justina_plugins", "/opt/ros/melodic/share/tmc_wrs_gazebo_worlds", "/opt/ros/melodic/share/gazebo_ros", "/opt/ros/melodic/lib/gazebo_ros", "/opt/ros/melodic/lib/python2.7/dist-packages/gazebo_ros", "/opt/ros/melodic/lib/python2.7/dist-packages/gazebo_msgs", "/opt/ros/melodic/share/tmc_control_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/tmc_control_msgs", "/opt/ros/melodic/include/tmc_control_msgs", "/opt/ros/melodic/lib/justina_tools /opt/ros/melodic/share/justina_tools", "/opt/ros/melodic/include/justina_tools", "/opt/ros/melodic/include/manip_msgs", "/opt/ros/melodic/share/manip_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/manip_msgs", "/opt/ros/melodic/include/navig_msgs", "/opt/ros/melodic/share/navig_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/navig_msgs", "/opt/ros/melodic/include/vision_msgs", "/opt/ros/melodic/share/vision_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/vision_msgs", "/opt/ros/melodic/include/visualization_msgs", "/opt/ros/melodic/share/visualization_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/visualization_msgs", "/opt/ros/melodic/include/knowledge_msgs", "/opt/ros/melodic/share/knowledge_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/knowledge_msgs", "/opt/ros/melodic/include/env_msgs", "/opt/ros/melodic/share/env_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/env_msgs", "/opt/ros/melodic/lib/kinect_man", "/opt/ros/melodic/share/kinect_man", "/opt/ros/melodic/lib/gmapping /opt/ros/melodic/share/gmapping", "/opt/ros/melodic/lib/joy", "/opt/ros/melodic/share/joy", "/opt/ros/melodic/include/bbros_bridge", "/opt/ros/melodic/share/bbros_bridge", "/opt/ros/melodic/lib/python2.7/dist-packages/bbros_bridge", "/opt/ros/melodic/lib/head", "/opt/ros/melodic/share/head", "/opt/ros/melodic/lib/arms", "/opt/ros/melodic/share/arms", "/opt/ros/melodic/lib/laser_manager", "/opt/ros/melodic/share/laser_manager", "/opt/ros/melodic/lib/shared_libs", "/opt/ros/melodic/share/obj_reco", "/opt/ros/melodic/lib/obj_reco", "/usr/local/lib"]
+VOLUME ["/opt/ros/melodic/share/hsrb_meshes", "/opt/ros/melodic/share/justina_plugins", "/opt/ros/melodic/share/gazebo_ros", "/opt/ros/melodic/lib/gazebo_ros", "/opt/ros/melodic/lib/python2.7/dist-packages/gazebo_ros", "/opt/ros/melodic/lib/python2.7/dist-packages/gazebo_msgs", "/opt/ros/melodic/share/tmc_control_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/tmc_control_msgs", "/opt/ros/melodic/include/tmc_control_msgs", "/opt/ros/melodic/lib/justina_tools", "/opt/ros/melodic/share/justina_tools", "/opt/ros/melodic/include/justina_tools", "/opt/ros/melodic/include/manip_msgs", "/opt/ros/melodic/share/manip_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/manip_msgs", "/opt/ros/melodic/include/navig_msgs", "/opt/ros/melodic/share/navig_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/navig_msgs", "/opt/ros/melodic/include/vision_msgs", "/opt/ros/melodic/share/vision_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/vision_msgs", "/opt/ros/melodic/include/visualization_msgs", "/opt/ros/melodic/share/visualization_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/visualization_msgs", "/opt/ros/melodic/include/knowledge_msgs", "/opt/ros/melodic/share/knowledge_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/knowledge_msgs", "/opt/ros/melodic/include/env_msgs", "/opt/ros/melodic/share/env_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/env_msgs", "/opt/ros/melodic/lib/kinect_man", "/opt/ros/melodic/share/kinect_man", "/opt/ros/melodic/lib/gmapping /opt/ros/melodic/share/gmapping", "/opt/ros/melodic/lib/joy", "/opt/ros/melodic/share/joy", "/opt/ros/melodic/include/bbros_bridge", "/opt/ros/melodic/share/bbros_bridge", "/opt/ros/melodic/lib/python2.7/dist-packages/bbros_bridge", "/opt/ros/melodic/lib/head", "/opt/ros/melodic/share/head", "/opt/ros/melodic/lib/arms", "/opt/ros/melodic/share/arms", "/opt/ros/melodic/lib/laser_manager", "/opt/ros/melodic/share/laser_manager", "/opt/ros/melodic/lib/shared_libs", "/opt/ros/melodic/share/obj_reco", "/opt/ros/melodic/lib/obj_reco", "/usr/local/lib"]
 
 VOLUME ["/opt/ros/melodic/share/tmc_gazebo_task_evaluators", "/opt/ros/melodic/lib/tmc_gazebo_task_evaluators"]
+VOLUME ["/opt/ros/melodic/share/tmc_wrs_gazebo_worlds", "/opt/ros/melodic/lib/tmc_wrs_gazebo_worlds", "/usr/lib/python2.7/dist-packages/scipy"]
 
 VOLUME ["/opt/ros/melodic/include/hri_msgs", "/opt/ros/melodic/share/hri_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/hri_msgs"]
 
@@ -163,8 +173,11 @@ VOLUME ["/opt/ros/melodic/lib/pointcloud_to_laserscan", "/opt/ros/melodic/share/
 
 VOLUME ["/opt/ros/melodic/share/obs_detect", "/opt/ros/melodic/lib/obs_detect", "/opt/ros/melodic/share/mvn_pln", "/opt/ros/melodic/lib/mvn_pln"]
 
-VOLUME ["/opt/ros/melodic/share/pcl_conversions", "/opt/ros/melodic/include/pcl_conversions", "/opt/ros/melodic/lib/python2.7/dist-packages/pcl_conversions", "/usr/include/pcl-1.8 /usr/include/ni", "/usr/include/openni2", "/usr/include/vtk-6.3", "/usr/include/freetype2", "/usr/include/hdf5", "/usr/include/libxml2", "/usr/include/jsoncpp", "/usr/include/tcl", "/opt/ros/melodic/share/pcl_msgs", "/opt/ros/melodic/include/pcl_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/pcl_msgs", "/opt/ros/melodic/share/pcl_ros", "/opt/ros/melodic/lib/pcl_ros", "/opt/ros/melodic/include/pcl_ros", "/opt/ros/melodic/lib/python2.7/dist-packages/pcl_ros"]
+VOLUME ["/opt/ros/melodic/share/pcl_conversions", "/opt/ros/melodic/include/pcl_conversions", "/opt/ros/melodic/lib/python2.7/dist-packages/pcl_conversions", "/usr/include/pcl-1.8", "/usr/include/ni", "/usr/include/openni2", "/usr/include/vtk-6.3", "/usr/include/freetype2", "/usr/include/hdf5", "/usr/include/libxml2", "/usr/include/jsoncpp", "/usr/include/tcl", "/opt/ros/melodic/share/pcl_msgs", "/opt/ros/melodic/include/pcl_msgs", "/opt/ros/melodic/lib/python2.7/dist-packages/pcl_msgs", "/opt/ros/melodic/share/pcl_ros", "/opt/ros/melodic/lib/pcl_ros", "/opt/ros/melodic/include/pcl_ros", "/opt/ros/melodic/lib/python2.7/dist-packages/pcl_ros"]
 
+VOLUME ["/opt/ros/melodic/include/point_cloud_manager", "/opt/ros/melodic/share/point_cloud_manager", "/opt/ros/melodic/lib/point_cloud_manager"]
+VOLUME ["/opt/ros/melodic/include/sound_play", "/opt/ros/melodic/share/sound_play", "/opt/ros/melodic/lib/sound_play"]
+VOLUME ["/usr/lib/x86_64-linux-gnu/hdf5"]
 #VOLUME ["/usr/lib/libOpenNI2.so", "/usr/lib/libOpenNI2.so.0"]
 
 #VOLUME [ /opt/ros/melodic/share/obj_reco /opt/ros/melodic/lib/obj_reco ]
