@@ -6,6 +6,7 @@
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item2" output="screen"
         args="-database ycb_007_tuna_fish_can -sdf -model task_item2 -x -0.32 -y 1.1 -z .6"
   />
+  
 
   
 
