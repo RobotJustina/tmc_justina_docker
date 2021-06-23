@@ -145,6 +145,9 @@ include_directories(
 ## Declare a C++ executable
 
 
+add_executable( task_1
+  src/task_1.cpp
+)
 add_executable( rips
   src/rips.cpp
 )
@@ -153,6 +156,7 @@ add_executable( rips
 ## same as for the library above
 #add_dependencies(act_pln_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(navigation_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(task_1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(rips ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 
@@ -160,6 +164,10 @@ add_dependencies(rips ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARG
 #target_link_libraries(act_pln_node
 #  ${catkin_LIBRARIES}
 #)
+
+target_link_libraries(task_1
+  ${catkin_LIBRARIES}
+)
 
 target_link_libraries(rips
   ${catkin_LIBRARIES}

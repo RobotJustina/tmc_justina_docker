@@ -1,0 +1,12 @@
+<launch>
+
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item1" output="screen"
+        args="-database ycb_005_tomato_soup_can -sdf -model task_item1 -x -0.32 -y 1.2 -z .6"
+  />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item2" output="screen"
+        args="-database ycb_007_tuna_fish_can -sdf -model task_item2 -x -0.32 -y 1.1 -z .6"
+  />
+
+  
+
+</launch>
