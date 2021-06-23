@@ -1,0 +1,8 @@
+/build
+.catkin_workspace
+.theia/
+.vscode
+Dockerfile.nvidia
+devel/
+docker-compose.nvidia.yml
+
