@@ -12,31 +12,19 @@
 
 enum SMState {
     SM_INIT,
-	SM_INIT_TABLE,
-	SM_WAIT_FOR_COMMAND,
-	SM_REPEAT_COMMAND,
-	SM_PARSE_SPOKEN_COMMAND,
-    SM_WAIT_COMMAND,
-    SM_RESET_OBJ,
-    SM_GET_ORDER,
-    SM_WHERE_IS,
-    SM_SELECT_OBJECT_GRASP,
 	SM_NAVIGATE_TO_INSPECTION,
-    SM_LEFT_NAVIGATE_LOCATION,
-    SM_RIGHT_NAVIGATE_LOCATION,
 	SM_ALIGN_TABLE,
 	SM_DETECT_OBJECT,
-    SM_NO_DETECT_OBJECT,
-	SM_HANDLER,
 	SM_GRASP_OBJECT,
+    SM_LEFT_NAVIGATE_LOCATION,
+    SM_RIGHT_NAVIGATE_LOCATION,
 	SM_RIGHT_DELIVER_OBJECT,
     SM_LEFT_DELIVER_OBJECT,
-	SM_REPEAT_TASK,
 	SM_FINAL_STATE
 };
 
 //delivery locations for each category
-enum objType {None,Food, Kitchen, Tool, Shape};
+enum objType {None,Food, Kitchen, Tool, Shape, Task};
 
 std::string get_location(objType type) {
    switch(type) {
@@ -45,9 +33,10 @@ std::string get_location(objType type) {
       case Kitchen:
          return "long_table_a_1";
       case Tool:
-         return "bin_a";
+      case Task:
       case Shape:
          return "bin_a";
+      case None:
       default:
          return "bin_b";
    }
@@ -122,7 +111,7 @@ int main(int argc, char** argv){
     			std::cout << "State machine: SM_DETECT_OBJECT" << std::endl;
                 //try to find an object     
                 if(JustinaVision::detectAllObjectsVot(recoObj, image, 5)){
-                    for(int j = 0; j < recoObj.size() && !table_aligned; j++){
+                    for(int j = 0; j < recoObj.size() ; j++){
                         // id.rfind("",0) search by prefix
                         //each category
                         if (recoObj[j].id.rfind("Food", 0) == 0){
@@ -133,6 +122,10 @@ int main(int argc, char** argv){
                             obj_type=Shape;
                         }else if (recoObj[j].id.rfind("tool", 0) == 0){
                             obj_type=Tool;
+                        }else if (recoObj[j].id.rfind("task", 0) == 0){
+                            obj_type=Task;
+                        }else{
+                            obj_type=None;
                         }
                         //select arm
                         //left
@@ -207,7 +200,7 @@ int main(int argc, char** argv){
         	    break;
 
             case SM_RIGHT_DELIVER_OBJECT:
-				std::cout << "State machine: SM_DELIVER_OBJECT" << std::endl;
+				std::cout << "State machine: SM_RIGHT_DELIVER_OBJECT" << std::endl;
 				
                 if(right_obj_index>=0){
                 	JustinaManip::raGoTo("take", 3000);
@@ -240,12 +233,10 @@ int main(int argc, char** argv){
         		//Final state
         		std::cout << "State machine: SM_FINAL_STATE" << std::endl;	
 
-                JustinaNavigation::getClose("initial_point", 120000);
+                //JustinaNavigation::getClose("initial_point", 120000);
                 //JustinaHRI::waitAfterSay("I have finished test",4000);
-			    std::cout << "I have finished test" << std::endl;	
-        		success = true;
-        		fail = true;
-                return 0;
+			    std::cout << "I have finished task 1" << std::endl;	
+        		state=SM_NAVIGATE_TO_INSPECTION;
         }
         ros::spinOnce();
         loop.sleep();
