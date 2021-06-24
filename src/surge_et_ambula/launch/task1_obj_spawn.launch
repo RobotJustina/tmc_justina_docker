@@ -3,9 +3,19 @@
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item1" output="screen"
         args="-database ycb_005_tomato_soup_can -sdf -model task_item1 -x -0.32 -y 1.2 -z .6"
   />
+  <!-- 
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item2" output="screen"
-        args="-database ycb_007_tuna_fish_can -sdf -model task_item2 -x -0.32 -y 1.1 -z .6"
+        args="-database ycb_007_tuna_fish_can -sdf -model task_item2 -x -0.32 -y 1.1 -z .65"
   />
+  -->
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item3" output="screen"
+        args="-database ycb_077_rubiks_cube -sdf -model task_item3 -x -0.37 -y 1.17 -z .65"
+  />
+  <!-- 
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_task_item4" output="screen"
+        args="-database ycb_065-e_cups -sdf -model task_item4 -x -0.4 -y 1.43 -z .65"
+  />
+  -->
   
 
   
