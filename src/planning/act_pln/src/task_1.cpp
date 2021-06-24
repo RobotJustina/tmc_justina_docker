@@ -8,6 +8,7 @@
 #include "justina_tools/JustinaTools.h"
 #include "justina_tools/JustinaVision.h"
 #include "justina_tools/JustinaTasks.h"
+#include "rosgraph_msgs/Clock.h"
 //Estados para la máquina
 
 enum SMState {
@@ -76,7 +77,17 @@ int main(int argc, char** argv){
     bool ra = false;
     bool drop = false;
 
-    while(ros::ok() && !fail && !success){
+    ros::topic::waitForMessage<rosgraph_msgs::Clock>("/clock");
+
+    while(!ros::Time::isValid()){
+        ros::spinOnce();
+        loop.sleep();
+    }
+
+    ros::Duration d(300.0); // 5 min
+    ros::Time begin = ros::Time::now();
+
+    while(ros::ok() && !fail && !success && ros::Time::now() - begin <= d){
     
         switch(state){
         	//initial state
@@ -241,5 +252,6 @@ int main(int argc, char** argv){
         ros::spinOnce();
         loop.sleep();
     }
+    std::cout << "TIME IS OVER" << std::endl;
     return 0;
 }
