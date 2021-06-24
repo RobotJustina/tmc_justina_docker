@@ -15,8 +15,7 @@
 	<arg name="kinect_maxX" default="0.9"/>
 	<arg name="kinect_minY" default="-0.35"/>
     <arg name="kinect_maxY" default="0.35"/>
-    <arg name="kinect_minZ" default="0.05"/>
-	<!-- <arg name="kinect_minZ" default="0.0055"/> -->
+	<arg name="kinect_minZ" default="0.0055"/> 
 	<arg name="kinect_maxZ" default="1.0"/>
 	<arg name="enable_torque" default="true"/>
 	<arg name="head_offset" default="0.0"/>
