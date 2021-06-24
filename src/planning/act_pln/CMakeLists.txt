@@ -145,12 +145,9 @@ include_directories(
 ## Declare a C++ executable
 
 
-add_executable( task_1
-  src/task_1.cpp
-)
-add_executable( rips
-  src/rips.cpp
-)
+add_executable( task_1 src/task_1.cpp )
+add_executable( rips src/rips.cpp )
+add_executable( go_and_get src/go_and_get.cpp )
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -158,7 +155,7 @@ add_executable( rips
 #add_dependencies(navigation_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(task_1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(rips ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
+add_dependencies(go_and_get ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(act_pln_node
@@ -170,5 +167,9 @@ target_link_libraries(task_1
 )
 
 target_link_libraries(rips
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(go_and_get
   ${catkin_LIBRARIES}
 )
