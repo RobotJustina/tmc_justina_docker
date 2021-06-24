@@ -17,6 +17,6 @@ long_table_a_2	-2.07	-0.2	3.1416
 long_table_b	-0.769308	-0.0370872	-0
 long_table_b_1	-0.78791	0.205609	-0
 long_table_b_2	-0.746774	-0.350708	-0
-second_room	0	-1.35774	-0
+second_room	-0.55	-1.37162	0
 shelf	2.07	-1.10718	0
 tall_table	-0.95	1.25	0

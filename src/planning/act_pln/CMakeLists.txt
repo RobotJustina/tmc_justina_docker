@@ -146,6 +146,7 @@ include_directories(
 
 
 add_executable( task_1 src/task_1.cpp )
+add_executable( task_2 src/task_2.cpp )
 add_executable( rips src/rips.cpp )
 add_executable( go_and_get src/go_and_get.cpp )
 
@@ -154,6 +155,7 @@ add_executable( go_and_get src/go_and_get.cpp )
 #add_dependencies(act_pln_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(navigation_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(task_1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(task_2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(rips ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(go_and_get ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
@@ -163,6 +165,9 @@ add_dependencies(go_and_get ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTE
 #)
 
 target_link_libraries(task_1
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(task_2
   ${catkin_LIBRARIES}
 )
 
