@@ -70,6 +70,8 @@ int main(int argc, char** argv){
     int nextState = 0;
     bool fail = false;
     bool success = false;
+    int attemps_object = 0;
+    std::string loc = "tall_table";
     std::vector<vision_msgs::VisionObject> recoObj;
     sensor_msgs::Image image;
     int index;
@@ -100,7 +102,7 @@ int main(int argc, char** argv){
         		//Go to location
         		std::cout << "State machine: SM_NAVIGATE_TO_INSPECTION" << std::endl;
 			    //go to tall_table because is the easiest path
-                if(!JustinaNavigation::getClose("tall_table", 120000)){
+                if(!JustinaNavigation::getClose(loc, 120000)){
                     std::cout << "Cannot move to tall_table" << std::endl;
                 }                
                 state = SM_ALIGN_TABLE;
@@ -112,9 +114,16 @@ int main(int argc, char** argv){
                 std::cout << "I aling with the tall table" << std::endl;
     			JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
         		table_aligned = JustinaTasks::alignWithTable(0.2);
-                JustinaNavigation::moveDist(0.4, 4000);
-        		
-        		state = SM_DETECT_OBJECT;
+                JustinaNavigation::moveDist(0.3, 4000);
+                attemps_object++;
+                if(attemps_object > 2){
+                    loc = "long_table_b";
+                    state = SM_NAVIGATE_TO_INSPECTION;
+                    attemps_object = 0;
+                }
+                else{
+        		    state = SM_DETECT_OBJECT;
+                }
     			break;
                 
 			//search for an object for each arm
@@ -168,9 +177,10 @@ int main(int argc, char** argv){
                 //try to grasp objects with selected arm
                 JustinaManip::torsoGoTo(0,0,0,5000);
                 if(left_obj_index>=0){
-                    JustinaTasks::graspObject(recoObj[left_obj_index].pose.position.x, recoObj[left_obj_index].pose.position.y, recoObj[left_obj_index].pose.position.z, true, "", false);
+                    JustinaTasks::graspObject(recoObj[left_obj_index].pose.position.x, recoObj[left_obj_index].pose.position.y, recoObj[left_obj_index].pose.position.z, true, "", true);
                     state = SM_LEFT_NAVIGATE_LOCATION;               		
                 }
+                JustinaManip::torsoGoTo(0,0,0,5000);
                 if(right_obj_index>=0){
                     JustinaTasks::graspObject(recoObj[right_obj_index].pose.position.x, recoObj[right_obj_index].pose.position.y, recoObj[right_obj_index].pose.position.z, false, "", true);
                     if (state != SM_LEFT_NAVIGATE_LOCATION){
