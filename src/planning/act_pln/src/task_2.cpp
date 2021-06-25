@@ -91,6 +91,7 @@ int main(int argc, char** argv){
         "Food_gelatin_box",
         "Food_pudding_box",
         "Food_tuna_fish_can",
+        "Food_banana",
         "task_d_toy_airplane"
     };
     
