@@ -59,6 +59,7 @@ double task1_delivery_score;
 double task1_category_score;
 double task1_orientation_score;
 double task1_time_bonus;
+double task1_draweropen_bonus;
 
 double task2a_score;
 bool task2a_collision_detected;
@@ -67,6 +68,7 @@ double task2_start_time;
 double task2_score;
 double task2_time_bonus;
 std::string task2_target;
+std::string task2_target_person;
 std::map<std::string, bool> task2_checked_objects;
 
 double overall_time_bonus;
@@ -87,7 +89,7 @@ void get_objects_in_shelf(std::vector<std::string> &objects)
     for (auto name: world_properties.response.model_names) {
         gazebo_msgs::GetModelState model_state;
         model_state.request.model_name = name;
-        model_state.request.relative_entity_name = "wrc_bookshelf";
+        model_state.request.relative_entity_name = "wrc_bookshelf::link";
         getModelState.call(model_state);
         auto p = model_state.response.pose;
         if (name != "wrc_bookshelf" && 
@@ -106,7 +108,7 @@ void get_objects_in_humanfront(std::vector<std::string> &objects)
     for (auto name: world_properties.response.model_names) {
         gazebo_msgs::GetModelState model_state;
         model_state.request.model_name = name;
-        model_state.request.relative_entity_name = "wrc_frame";
+        model_state.request.relative_entity_name = "wrc_frame::link";
         getModelState.call(model_state);
         auto p = model_state.response.pose;
         if (name.find("task2_") == 0 &&
@@ -125,7 +127,7 @@ void get_task1_objects_on_tables(std::vector<std::string> &objects)
     for (auto name: world_properties.response.model_names) {
         gazebo_msgs::GetModelState model_state;
         model_state.request.model_name = name;
-        model_state.request.relative_entity_name = "wrc_frame";
+        model_state.request.relative_entity_name = "wrc_frame::link";
         getModelState.call(model_state);
         auto p = model_state.response.pose;
         if (name.find("task1_") == 0 &&
@@ -155,6 +157,15 @@ std::string random_object_in_shelf()
     get_objects_in_shelf(objects_in_shelf);
     std::string obj = objects_in_shelf[rand() % objects_in_shelf.size()];
     task2_re.subst(obj, "");
+    return obj;
+}
+
+std::string random_person()
+{
+    std::vector<std::string> persons;
+    persons.push_back("left");
+    persons.push_back("right");
+    std::string obj = persons[rand() % persons.size()];
     return obj;
 }
 
@@ -215,33 +226,32 @@ void cb_hsrb_in_room2(const std_msgs::Int16::ConstPtr& count)
 
             // publish first request
             task2_target = random_object_in_shelf();
+            task2_target_person = random_person();
             std_msgs::String msg;
-            msg.data = task2_target;
+            msg.data = task2_target + " to person " + task2_target_person;
             pubmsg.publish(msg);
             ROS_WARN("[WRS] Asked to take %s", msg.data.c_str());
         }
     }
 }
 
-void cb_hsrb_in_humanfront(const std_msgs::Int16::ConstPtr& count)
+void cb_hsrb_in_humanfront(const std::string place, const std_msgs::Int16::ConstPtr& count)
 {
     static int times = 0;
-    static bool prevdata = 0;
+    static std::map<std::string, int> places;
+
+    int prevdata = 0;
+    int total_count = 0;
+    for(auto itr = places.begin(); itr != places.end(); ++itr) {
+        if (itr->second > 0) {
+            prevdata = itr->second;
+        }
+    }
     if (prevdata != count->data && count->data > 0) {
-        if (times == 0) {
+        if (times == 0 && place == task2_target_person) {
             times = 1;
             // count score
-            ROS_WARN("[WRS] Delivered first object to human!");
-            count_task2_score();
-            task2_target = random_object_in_shelf();
-            std_msgs::String msg;
-            msg.data = task2_target;
-            pubmsg.publish(msg);
-            ROS_WARN("[WRS] Asked to take %s", msg.data.c_str());
-        } else if (times == 1) {
-            times = 2;
-            // count score
-            ROS_WARN("[WRS] Delivered second object to human!");
+            ROS_WARN("[WRS] Delivered object to human!");
             count_task2_score();
             double task2_end_time = ros::Time::now().toSec();
             double task2_duration = task2_end_time - task2_start_time;
@@ -249,7 +259,7 @@ void cb_hsrb_in_humanfront(const std_msgs::Int16::ConstPtr& count)
             get_task1_objects_on_tables(remaining_task1_objects);
             std::vector<std::string> objects_in_humanfront;
             get_objects_in_humanfront(objects_in_humanfront);
-            if (task2_duration <= 5*60.0+15.0 && objects_in_humanfront.size() == 2) {
+            if (task2_duration <= 5*60.0+15.0 && objects_in_humanfront.size() == 1) {
                 task2_time_bonus = 50.0;
                 ROS_WARN("[WRS] Congratulations! You have finished task2 within given time.");
             }
@@ -259,7 +269,7 @@ void cb_hsrb_in_humanfront(const std_msgs::Int16::ConstPtr& count)
             double remaining_time_in_minute = floor(remaining_time / 60.0);
             ROS_WARN("[WRS] Remaining time %.0f [minute].", remaining_time_in_minute);
             if (remaining_time_in_minute > 0.0) {
-                if (remaining_task1_objects.size() == 0 && objects_in_humanfront.size() == 2) {
+                if (remaining_task1_objects.size() == 0 && objects_in_humanfront.size() == 1) {
                     ROS_WARN("[WRS] Congratulations! You have finished all the tasks within given time.");
                     overall_time_bonus = 20.0 * remaining_time_in_minute;
                 } else {
@@ -272,7 +282,7 @@ void cb_hsrb_in_humanfront(const std_msgs::Int16::ConstPtr& count)
             ROS_WARN("[WRS] All done!");
         }
     }
-    prevdata = count->data;
+    places[place] = count->data;
 }
 
 void cb_count_delivery(const std::string place, const std_msgs::Int16::ConstPtr& count)
@@ -306,6 +316,19 @@ void cb_count_correct_category(const std::string place, const std_msgs::Int16::C
     if (task1_category_score != prev_category_score) {
         ROS_WARN("[WRS] Found new delivered object with correct category!");
         prev_category_score = task1_category_score;
+    }
+}
+
+void cb_count_draweropen(const std_msgs::Int16::ConstPtr& count)
+{
+    static double prev_draweropen_score = 0.0;
+
+    if (count->data >= 3) {
+        task1_draweropen_bonus = 50.0;
+    }
+    if (task1_draweropen_bonus != prev_draweropen_score) {
+        ROS_WARN("[WRS] Opened all the drawers!");
+        prev_draweropen_score = task1_draweropen_bonus;
     }
 }
 
@@ -362,6 +385,8 @@ int main(int argc, char **argv)
     ros::Subscriber sub_drawerbottom_any = n.subscribe<std_msgs::Int16>("/any_in_drawerbottom_detector/count", 1, boost::bind(&cb_count_delivery, "drawerbottom", _1));
     ros::Subscriber sub_drawerbottom_cat = n.subscribe<std_msgs::Int16>("/tools_in_drawerbottom_detector/count", 1, boost::bind(&cb_count_correct_category, "drawerbottom", _1));
 
+    ros::Subscriber sub_drawer_open = n.subscribe<std_msgs::Int16>("/drawer_in_drawerfront_detector/count", 1, cb_count_draweropen);
+
     ros::Subscriber sub_containera_any = n.subscribe<std_msgs::Int16>("/any_in_containera_detector/count", 1, boost::bind(&cb_count_delivery, "containera", _1));
     ros::Subscriber sub_containera_cat = n.subscribe<std_msgs::Int16>("/kitchenitems_in_containera_detector/count", 1, boost::bind(&cb_count_correct_category, "containera", _1));
 
@@ -384,11 +409,13 @@ int main(int argc, char **argv)
 
     ros::Subscriber sub = n.subscribe("/undesired_contact_detector/detect", 1, cb_detect);
     ros::Subscriber sub_hsrb_in_room2 = n.subscribe<std_msgs::Int16>("/hsrb_in_room2_detector/count", 1, cb_hsrb_in_room2);
-    ros::Subscriber sub_hsrb_in_humanfront = n.subscribe<std_msgs::Int16>("/hsrb_in_humanfront_detector/count", 1, cb_hsrb_in_humanfront);
+    ros::Subscriber sub_hsrb_in_humanleftfront = n.subscribe<std_msgs::Int16>("/hsrb_in_humanleftfront_detector/count", 1, boost::bind(&cb_hsrb_in_humanfront, "left", _1));
+    ros::Subscriber sub_hsrb_in_humanrightfront = n.subscribe<std_msgs::Int16>("/hsrb_in_humanrightfront_detector/count", 1, boost::bind(&cb_hsrb_in_humanfront, "right", _1));
 
     task1_delivery_score = 0.0;
     task1_category_score = 0.0;
     task1_time_bonus = 0.0;
+    task1_draweropen_bonus = 0.0;
     task2a_score = 0.0;
     task2a_collision_detected = false;
     task2_score = 0.0;
@@ -400,7 +427,7 @@ int main(int argc, char **argv)
     double prev_score = 0.0;
     while (ros::ok()) {
         std_msgs::Float32 msg;
-        double score = task1_delivery_score + task1_category_score + task1_time_bonus + task2a_score + task2_score + task2_time_bonus + overall_time_bonus;
+        double score = task1_delivery_score + task1_category_score + task1_time_bonus + task1_draweropen_bonus + task2a_score + task2_score + task2_time_bonus + overall_time_bonus;
         if (fabs(score - prev_score) > 0.1) {
             ROS_WARN("[WRS] Your score has been changed to %i (%+i).", (int)score, (int)(score - prev_score));
             prev_score = score;
