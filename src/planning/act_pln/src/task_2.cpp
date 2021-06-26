@@ -36,14 +36,23 @@ bool endsWith (std::string const &fullString, std::string const &ending) {
 
 //-------arms
 std::string desired_obj="";
+std::string desired_person="";
 int obj_index=-1;
 bool left_arm=true;
-std::string desired_person="";
+bool left_person=true;
 
 //callback with desired_obj
 void desiredObjCallback(const std_msgs::String::ConstPtr& msg){
-    desired_obj=msg->data.c_str();
+    std::string message=msg->data.c_str();
+    std::size_t found = message.find_last_of(" ");
+    //check if left person is the correct
+    left_arm=message.substr(found+1).compare("left")==0;
+    //split object name
+    found = message.find(" ");
+    desired_obj=message.substr(0,found);
+    //print values
     std::cout<<"Desired object  "<< desired_obj <<std::endl;
+    std::cout<<"Desired person left = "<< left_arm <<std::endl;
 }
 
 //-------SM
@@ -77,8 +86,12 @@ int main(int argc, char** argv){
     //object blacklist 
     bool obj_allowed=true;
     std::vector<std::string> obj_blacklist{
-        "Food_craker_box",
+        "Food_cracker_box",
         "Food_sugar_box",
+        "Food_gelatin_box",
+        "Food_pudding_box",
+        "Food_tuna_fish_can",
+        "Food_banana",
         "task_d_toy_airplane"
     };
     
@@ -212,9 +225,9 @@ int main(int argc, char** argv){
 
             //go to deliver zone
             case SM_NAVIGATE_LOCATION:
-                //read topic to deliver person 
-
-                desired_person="chair_a";
+                
+                //select location
+                desired_person=left_person?"chair_b":"chair_a";
 
         		//Go to location
         		std::cout << "State machine: SM_NAVIGATE_LOCATION" << std::endl;
@@ -223,7 +236,7 @@ int main(int argc, char** argv){
                 if(!JustinaNavigation::getClose(desired_person ,120000)){
                     std::cout << "Cannot move to "<< desired_person << std::endl;
                 }
-                JustinaNavigation::moveDist(0.4, 4000);
+                JustinaNavigation::moveDist(0.1, 4000);
                 state = SM_DELIVER_OBJECT;
         	    break;
             
@@ -231,8 +244,13 @@ int main(int argc, char** argv){
 				std::cout << "State machine: SM_LEFT_DELIVER_OBJECT" << std::endl;
 				
             	if(obj_index>=0){
-            		JustinaManip::laGoTo("take", 3000);
-            		JustinaTasks::dropObject("", left_arm, 10000);
+                    if(left_arm)
+            		    JustinaManip::laGoTo("take", 3000);
+                    else
+                    {
+                        JustinaManip::raGoTo("take", 3000);
+                    }
+                    JustinaTasks::dropObject("", left_arm, 10000);
                     obj_index=-1;
             	}
      
