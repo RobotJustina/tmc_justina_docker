@@ -252,8 +252,8 @@ int main(int argc, char** argv)
     tf::Quaternion q;
     try
     {
-        tf_listener.waitForTransform("map", "base_link", ros::Time(0), ros::Duration(10.0));
-        tf_listener.waitForTransform("odom", "base_link", ros::Time(0), ros::Duration(10.0));
+        tf_listener.waitForTransform("map", "base_link", ros::Time(0), ros::Duration(20.0));
+        tf_listener.waitForTransform("odom", "base_link", ros::Time(0), ros::Duration(20.0));
         tf_listener.lookupTransform("map", "base_link", ros::Time(0), transform);
         tf_listener.lookupTransform("odom", "base_link", ros::Time(0), transform);
     }
@@ -264,6 +264,7 @@ int main(int argc, char** argv)
     }
 
     int state = SM_INIT;
+    std::cout << "inicializando transformacion" << std::endl;
     std_msgs::Bool msg_goal_reached;
     std_msgs::Float32MultiArray msg_head;
     geometry_msgs::Twist twist;
