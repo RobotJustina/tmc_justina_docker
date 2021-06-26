@@ -201,9 +201,9 @@ int main(int argc, char** argv){
                         state = SM_GRASP_OBJECT;
                     }
                 } else{
-                        JustinaNavigation::moveDist(-0.05, 4000);
-                        state = SM_DETECT_OBJECT;
-                    }
+                    JustinaNavigation::moveDist(-0.05, 4000);
+                    state = SM_DETECT_OBJECT;
+                }
                 break;
             //if and object has been detected try to grasp it
             case SM_GRASP_OBJECT:

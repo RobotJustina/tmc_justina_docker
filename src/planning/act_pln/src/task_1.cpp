@@ -13,7 +13,8 @@
 
 enum SMState {
     SM_INIT,
-	SM_NAVIGATE_TO_INSPECTION,
+	SM_NAVIGATE_TO_TALL_TABLE,
+    SM_NAVIGATE_TO_LONG_TABLE,
 	SM_ALIGN_TABLE,
 	SM_DETECT_OBJECT,
 	SM_GRASP_OBJECT,
@@ -67,6 +68,23 @@ int main(int argc, char** argv){
     JustinaVision::setNodeHandle(&n);
     ros::Rate loop(10);
 
+    std::vector<float> world_right_pose(6);
+    std::vector<float> relative_right_pose(6);
+
+    int tall_table_attempts=0;
+    bool obj_allowed=true;
+    std::vector<std::string> obj_blacklist{
+        "Food_cracker_box",
+        "Food_sugar_box",
+        "Food_gelatin_box",
+        "Food_pudding_box",
+        "Food_tuna_fish_can",
+        "Food_banana",
+        "task_d_toy_airplane"
+    };
+
+    
+
     int nextState = 0;
     bool fail = false;
     bool success = false;
@@ -86,7 +104,7 @@ int main(int argc, char** argv){
         loop.sleep();
     }
 
-    ros::Duration d(300.0); // 5 min
+    ros::Duration d(600.0); // 15 min
     ros::Time begin = ros::Time::now();
 
     while(ros::ok() && !fail && !success && ros::Time::now() - begin <= d){
@@ -95,16 +113,34 @@ int main(int argc, char** argv){
         	//initial state
             case SM_INIT:
         		std::cout << "State machine: SM_INIT" << std::endl;	
-        		state = SM_NAVIGATE_TO_INSPECTION;
+                JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
+        		state = SM_NAVIGATE_TO_TALL_TABLE;
             break;
             //move to the objects initial position
-        	case SM_NAVIGATE_TO_INSPECTION:
+        	case SM_NAVIGATE_TO_TALL_TABLE:
         		//Go to location
-        		std::cout << "State machine: SM_NAVIGATE_TO_INSPECTION" << std::endl;
+        		std::cout << "State machine: SM_NAVIGATE_TO_TALL_TABLE" << std::endl;
 			    //go to tall_table because is the easiest path
+                JustinaNavigation::moveDist(-0.28, 4000);
+                JustinaNavigation::moveDistAngle(0, 1.5707,4000);
+                JustinaNavigation::moveDist(0.9, 4000);
+                
+                state = SM_ALIGN_TABLE;
+			    
+        	    break;	
+            //move to the long table for second try
+            case SM_NAVIGATE_TO_LONG_TABLE:
+        		//Go to location
+        		std::cout << "State machine: SM_NAVIGATE_TO_LONG_TABLE" << std::endl;
+			    //go to tall_table because is the easiest path
+                loc="long_table";
                 if(!JustinaNavigation::getClose(loc, 120000)){
-                    std::cout << "Cannot move to tall_table" << std::endl;
-                }                
+                    std::cout << "Cannot move to "<<loc << std::endl;
+                }
+                //manual align
+                JustinaNavigation::moveDist(0.3, 4000);
+                JustinaNavigation::moveDistAngle(0, 1.5707,4000);
+                JustinaNavigation::moveDist(0.2, 4000);
                 state = SM_ALIGN_TABLE;
 			    
         	    break;	
@@ -114,60 +150,77 @@ int main(int argc, char** argv){
                 std::cout << "I aling with the tall table" << std::endl;
     			JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
         		table_aligned = JustinaTasks::alignWithTable(0.2);
-                JustinaNavigation::moveDist(0.3, 4000);
-                attemps_object++;
-                if(attemps_object > 2){
-                    loc = "long_table_b";
-                    state = SM_NAVIGATE_TO_INSPECTION;
-                    attemps_object = 0;
-                }
-                else{
-        		    state = SM_DETECT_OBJECT;
-                }
+                JustinaNavigation::moveDist(0.15, 4000);
+                state = SM_DETECT_OBJECT;
+                
     			break;
                 
 			//search for an object for each arm
             case SM_DETECT_OBJECT:
     			std::cout << "State machine: SM_DETECT_OBJECT" << std::endl;
                 //try to find an object     
+                JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
                 if(JustinaVision::detectAllObjectsVot(recoObj, image, 5)){
                     for(int j = 0; j < recoObj.size() ; j++){
-                        // id.rfind("",0) search by prefix
-                        //each category
-                        if (recoObj[j].id.rfind("Food", 0) == 0){
-                            obj_type=Food;
-                        }else if (recoObj[j].id.rfind("kitchen", 0) == 0){
-                            obj_type=Kitchen;
-                        }else if (recoObj[j].id.rfind("shape", 0) == 0){
-                            obj_type=Shape;
-                        }else if (recoObj[j].id.rfind("tool", 0) == 0){
-                            obj_type=Tool;
-                        }else if (recoObj[j].id.rfind("task", 0) == 0){
-                            obj_type=Task;
-                        }else{
-                            obj_type=None;
+                        obj_allowed=true;
+                        //check obj_blacklist
+                        for( int k=0; k< obj_blacklist.size(); k++){
+                            //if not allow 
+                            if(recoObj[j].id.compare(obj_blacklist[k])==0){
+                                obj_allowed=false;
+                                break;
+                            }
                         }
-                        //select arm
-                        //left
-                        if(recoObj[j].pose.position.y > 0 && left_obj_index<0){
-                            left_obj_type=obj_type;
-                            left_obj_index=j;
-                            std::cout<< "Selecting "<<recoObj[j].id<<" with left arm"<<std::endl;
+
+                        if(obj_allowed){
+                            // id.rfind("",0) search by prefix
+                            //each category
+                            if (recoObj[j].id.rfind("Food", 0) == 0){
+                                obj_type=Food;
+                            }else if (recoObj[j].id.rfind("kitchen", 0) == 0){
+                                obj_type=Kitchen;
+                            }else if (recoObj[j].id.rfind("shape", 0) == 0){
+                                obj_type=Shape;
+                            }else if (recoObj[j].id.rfind("tool", 0) == 0){
+                                obj_type=Tool;
+                            }else if (recoObj[j].id.rfind("task", 0) == 0){
+                                obj_type=Task;
+                            }else{
+                                obj_type=None;
+                            }
+                            //select arm
+                            //left
+                            if(recoObj[j].pose.position.y > 0 && left_obj_index<0){
+                                left_obj_type=obj_type;
+                                left_obj_index=j;
+                                state = SM_GRASP_OBJECT;
+                                std::cout<< "Selecting "<<recoObj[j].id<<" with left arm"<<std::endl;
+                            }
+                            //right
+                            else if(right_obj_index<0){
+                                right_obj_type=obj_type;
+                                right_obj_index=j;
+                                state = SM_GRASP_OBJECT;
+                                relative_right_pose[0]=recoObj[right_obj_index].pose.position.x;
+                                relative_right_pose[1]=recoObj[right_obj_index].pose.position.y;
+                                relative_right_pose[2]=recoObj[right_obj_index].pose.position.z;
+                                JustinaTools::transformPose("base_link",relative_right_pose,"map",world_right_pose);
+                                std::cout<< "Selecting "<<recoObj[j].id<<" with right arm"<<std::endl;
+                            }
+                            if(right_obj_index<0 && left_obj_index<0){
+                                JustinaNavigation::moveDist(-0.05, 4000);
+                                state = SM_DETECT_OBJECT;
+                            }
                         }
-                        //right
-                        else if(right_obj_index<0){
-                            right_obj_type=obj_type;
-                            right_obj_index=j;
-                            std::cout<< "Selecting "<<recoObj[j].id<<" with right arm"<<std::endl;
-                        }
-                        
                     }
-                } 
-                if(right_obj_index<0 && left_obj_index<0){
-                    //small move to try again...
-                    state = SM_ALIGN_TABLE;
-                }else{
-	        	    state = SM_GRASP_OBJECT;
+                } else{
+                    if(tall_table_attempts <4){
+                        tall_table_attempts++;
+                        JustinaNavigation::moveDist(-0.05, 4000);
+                        state = SM_DETECT_OBJECT;
+                    }else{
+                        state=SM_NAVIGATE_TO_LONG_TABLE;
+                    }
                 }
     		    break;
             //if and object has been detected try to grasp it
@@ -182,7 +235,8 @@ int main(int argc, char** argv){
                 }
                 JustinaManip::torsoGoTo(0,0,0,5000);
                 if(right_obj_index>=0){
-                    JustinaTasks::graspObject(recoObj[right_obj_index].pose.position.x, recoObj[right_obj_index].pose.position.y, recoObj[right_obj_index].pose.position.z, false, "", true);
+                    JustinaTools::transformPose("map",world_right_pose,"base_link",relative_right_pose);
+                    JustinaTasks::graspObject(relative_right_pose[0],relative_right_pose[1],relative_right_pose[2], false, "", true);
                     if (state != SM_LEFT_NAVIGATE_LOCATION){
                         state = SM_RIGHT_NAVIGATE_LOCATION;  
                     }
@@ -229,7 +283,7 @@ int main(int argc, char** argv){
                     right_obj_index=-1;
             	}
                 JustinaManip::hdGoTo(0.0, 0.0, 6000);
-                state=SM_FINAL_STATE;
+                state=SM_NAVIGATE_TO_LONG_TABLE;
                 break;
             
             case SM_LEFT_DELIVER_OBJECT:
@@ -243,11 +297,15 @@ int main(int argc, char** argv){
      
                 JustinaManip::hdGoTo(0.0, 0.0, 6000);
                 //if is same delivery place
+                if(right_obj_index>=0){
                     if(get_location(right_obj_type)==get_location(left_obj_type)){
                         state = SM_RIGHT_DELIVER_OBJECT; 
                     }else{
                         state = SM_RIGHT_NAVIGATE_LOCATION; 
                     }
+                }else{
+                    state=SM_NAVIGATE_TO_LONG_TABLE;
+                }
 		        break;
                 
             case SM_FINAL_STATE:
@@ -257,7 +315,7 @@ int main(int argc, char** argv){
                 //JustinaNavigation::getClose("initial_point", 120000);
                 //JustinaHRI::waitAfterSay("I have finished test",4000);
 			    std::cout << "I have finished task 1" << std::endl;	
-        		state=SM_NAVIGATE_TO_INSPECTION;
+        		return 0;
         }
         ros::spinOnce();
         loop.sleep();

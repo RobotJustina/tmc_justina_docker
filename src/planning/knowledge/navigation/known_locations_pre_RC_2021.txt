@@ -11,9 +11,10 @@ entrance_door	-2.4	2.39	-1.5708
 exit	-2.4	2.39	-1.5708
 exitdoor	-2.40378	2.37562
 initial_point	-1.73485	1.11241	0
-long_table_a	-2.07	-0.421635	3.1416
+long_table	-0.390458	-0.918875	0
+long_table_a	-2.05583	-0.818869	3.1416
 long_table_a_1	-2.07	-0.1	3.1416
-long_table_a_2	-2.07	-0.2	3.1416
+long_table_a_2	-2.07275	-0.4	3.1416
 long_table_b	-0.769308	-0.0370872	-0
 long_table_b_1	-0.78791	0.205609	-0
 long_table_b_2	-0.746774	-0.350708	-0

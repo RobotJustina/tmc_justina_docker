@@ -1,5 +1,5 @@
 <launch>
-  <arg name="seed" default="10" />
+  <arg name="seed" default="490" />
   <arg name="per_category" default="6" />
   <arg name="obstacles" default="5" />
   <arg name="per_row" default="6" />
