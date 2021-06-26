@@ -30,12 +30,12 @@ def callbackLaPose(data):
 
 def callbackRaPose(data):
     global ra1, ra2, ra3, ra4, ra5, ra6, ra7
-    ra1 = data.data[0]
+    ra1 = data.data[0] + 0.05
     ra2 = data.data[1]
     ra3 = data.data[2]
-    ra4 = data.data[3]
+    ra4 = data.data[3] + 0.15
     ra5 = data.data[4]
-    ra6 = data.data[5]
+    ra6 = data.data[5] + 0.15
     ra7 = data.data[6]
 
 def callbackLaGrip(data):
