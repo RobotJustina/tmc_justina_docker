@@ -239,7 +239,7 @@ bool JustinaTasks::graspObject(float x, float y, float z, bool withLeftArm,
         std::cout << "right arm" << std::endl;
 
     bool objectInHand = false;
-    float idealX = 0.475;
+    float idealX = 0.305;
     float idealY = withLeftArm ? 0.234 : -0.235; //It is the distance from the center of the robot, to the center of the arm
     float idealZ = 0.72; //It is the ideal height for taking an object when torso is at zero height.
 
@@ -286,7 +286,7 @@ bool JustinaTasks::graspObject(float x, float y, float z, bool withLeftArm,
     float lastRobotX, lastRobotY, lastRobotTheta;
     //JustinaNavigation::getRobotPose(lastRobotX, lastRobotY, lastRobotTheta);
     JustinaNavigation::getRobotPoseFromOdom(lastRobotX, lastRobotY, lastRobotTheta);
-    JustinaNavigation::moveLateral(movLateral, 2000);
+    //JustinaNavigation::moveLateral(movLateral, 2000);
     JustinaNavigation::moveDist(movFrontal, 2000);
 
     bool found = false;
@@ -430,9 +430,9 @@ bool JustinaTasks::graspObject(float x, float y, float z, bool withLeftArm,
         boost::this_thread::sleep(boost::posix_time::milliseconds(500));
         JustinaManip::startLaCloseGripper(0.5);
         ros::spinOnce();
-        boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
         ros::spinOnce();
-        boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        boost::this_thread::sleep(boost::posix_time::milliseconds(1500));
         if (simul)
             JustinaKnowledge::addUpdateObjectViz(idObject, 0, 0, 0, 0, 0, 0, 0, 0, 0.06, 0, 0, 0, "left_arm_grip_center", "left_arm_grip_center");
         if (JustinaManip::objOnLeftHand()) {
@@ -528,7 +528,7 @@ bool JustinaTasks::graspObject(float x, float y, float z, bool withLeftArm,
             // --------------  Calculate the next ik inverse point ----------------
             articular.clear();
             //if(JustinaManip::inverseKinematics(objToGraspX - 0.08, objToGraspY - 0.0, objToGraspZ, articular)){
-            if(JustinaManip::inverseKinematics(objToGraspX - 0.115, objToGraspY - 0.0, objToGraspZ, articular)){
+	    if(JustinaManip::inverseKinematics(objToGraspX - 0.115, objToGraspY - 0.0, objToGraspZ, articular)){
                 JustinaManip::waitForRaGoalReached(2500);
                 JustinaManip::startRaGoToArticular(articular);
                 boost::this_thread::sleep(boost::posix_time::milliseconds(400));
@@ -543,9 +543,9 @@ bool JustinaTasks::graspObject(float x, float y, float z, bool withLeftArm,
         boost::this_thread::sleep(boost::posix_time::milliseconds(500));
         JustinaManip::startRaCloseGripper(0.5);
         ros::spinOnce();
-        boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
         ros::spinOnce();
-        boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+        boost::this_thread::sleep(boost::posix_time::milliseconds(1500));
         if (simul)
             JustinaKnowledge::addUpdateObjectViz(idObject, 0, 0, 0, 0, 0, 0, 0, 0, 0.06, 0, 0, 0, "right_arm_grip_center", "right_arm_grip_center");
         if (JustinaManip::objOnRightHand()) {
