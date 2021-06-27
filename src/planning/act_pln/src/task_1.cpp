@@ -138,9 +138,9 @@ int main(int argc, char** argv){
                     std::cout << "Cannot move to "<<loc << std::endl;
                 }
                 //manual align
+                JustinaManip::hdGoTo(0.0, -0.8, 4000);
                 JustinaNavigation::moveDist(0.3, 4000);
                 JustinaNavigation::moveDistAngle(0, 1.5707,4000);
-                JustinaNavigation::moveDist(0.2, 4000);
                 state = SM_ALIGN_TABLE;
 			    
         	    break;	
@@ -149,7 +149,7 @@ int main(int argc, char** argv){
     			std::cout << "State machine: SM_ALIGN_TABLE" << std::endl;
                 std::cout << "I aling with the tall table" << std::endl;
     			JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
-        		table_aligned = JustinaTasks::alignWithTable(0.2);
+        		//table_aligned = JustinaTasks::alignWithTable(0.2);
                 JustinaNavigation::moveDist(0.15, 4000);
                 state = SM_DETECT_OBJECT;
                 
@@ -160,6 +160,7 @@ int main(int argc, char** argv){
     			std::cout << "State machine: SM_DETECT_OBJECT" << std::endl;
                 //try to find an object     
                 JustinaManip::torsoGoTo(0.0, 0.0, 0.0, 6000);
+                JustinaManip::hdGoTo(0.0, -0.9, 3000);
                 if(JustinaVision::detectAllObjectsVot(recoObj, image, 5)){
                     for(int j = 0; j < recoObj.size() ; j++){
                         obj_allowed=true;
@@ -207,13 +208,11 @@ int main(int argc, char** argv){
                                 JustinaTools::transformPose("base_link",relative_right_pose,"map",world_right_pose);
                                 std::cout<< "Selecting "<<recoObj[j].id<<" with right arm"<<std::endl;
                             }
-                            if(right_obj_index<0 && left_obj_index<0){
-                                JustinaNavigation::moveDist(-0.05, 4000);
-                                state = SM_DETECT_OBJECT;
-                            }
+                            
                         }
                     }
-                } else{
+                } 
+                if(right_obj_index<0 && left_obj_index<0){
                     if(tall_table_attempts <4){
                         tall_table_attempts++;
                         JustinaNavigation::moveDist(-0.05, 4000);
@@ -281,6 +280,8 @@ int main(int argc, char** argv){
                 	JustinaManip::raGoTo("take", 3000);
                 	JustinaTasks::dropObject("", false, 10000);
                     right_obj_index=-1;
+                    right_obj_type=None;
+                    left_obj_type=None;
             	}
                 JustinaManip::hdGoTo(0.0, 0.0, 6000);
                 state=SM_NAVIGATE_TO_LONG_TABLE;
